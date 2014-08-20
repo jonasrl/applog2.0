@@ -1,15 +1,28 @@
 var app;
+var mapa;
+var validator;
+var url = 'http://192.168.0.20/webapi/api/';
 
 document.addEventListener('deviceready', onDeviceReady, false);
 
 function onDeviceReady() {
-    app = new kendo.mobile.Application(document.body, {
+    app = new kendo.mobile.Application(document.body);
     
-    // comment out the following line to get a UI which matches the look
-    // and feel of the operating system
-    skin: 'flat',
-    
-    // the application needs to know which view to load first
-    initial: 'views/motorista.html'
-    });
+    mapa = new Mapa(null, null, null, false);
+    mapa.DrawingManager.setMap(null);
+
+    setInterval(function(){
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);        
+            mapa.NewMarkerAtPoint(pos);
+        });        
+    }, 120000);
+}
+
+function exibirModalMensagem(){
+    $("#modal").data("kendoMobileModalView").open()
+}
+
+function fecharModalMensagem(){
+    $("#modal").data("kendoMobileModalView").close()
 }

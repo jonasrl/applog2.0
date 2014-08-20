@@ -13,7 +13,7 @@ function Mapa(height, width, container, locationDefault) {
     if (container)
         this.DivMapa = container
     else {
-        this.DivMapa = $("<div'></div>");
+        this.DivMapa = $("<div></div>");
         $("body").append(this.DivMapa);
     }
 
