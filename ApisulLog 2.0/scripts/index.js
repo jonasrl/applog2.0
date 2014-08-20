@@ -35,9 +35,10 @@ function onDeviceReady() {
 }
 
 function exibirModalMensagem(){
-    $("#modal").data("kendoMobileModalView").open()    
+    $("#modal").data("kendoMobileModalView").open();
+    $('#modal').addClass('modal_mensagem');
 }
 
 function fecharModalMensagem(){
-    $("#modal").data("kendoMobileModalView").close()
+    $("#modal").data("kendoMobileModalView").close();
 }

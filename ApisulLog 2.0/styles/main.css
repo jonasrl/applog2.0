@@ -37,6 +37,10 @@ body, html{
     box-shadow: none !important;
 }
 
+.km-android .km-button .km-icon {
+    color: #002C74 !important;    
+}
+
 input {
     font-size: .9em !important;
     padding: 0.5em .8em !important;
@@ -46,4 +50,35 @@ input {
     outline-style: none !important;
     color: #002C74 !important;
     background: #fff !important;
+}
+
+.modal_mensagem {
+	background: #FFF !important;
+	outline: none;
+    border-radius: 5px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;  
+}
+.modal_mensagem div:first-child {
+	background: #FFF !important;
+	outline: none;
+}
+.modal_mensagem textarea {
+	background: #FFF !important;
+	outline: none !important;
+    color: #000 !important;
+    border-bottom: none !important;
+    text-transform: uppercase;
+}
+.modal_mensagem .km-content {
+    padding: 0px 7px;
+}
+
+.km-modalview-root>.k-animation-container{
+        top: 50% !important;
+    left: 50% !important;
+    position: absolute !important;
+    margin-left: -160px !important;
+    margin-top: -120px !important;    
 }

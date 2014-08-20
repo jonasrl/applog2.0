@@ -25,7 +25,7 @@ function buscaRotaSMP(){
                         rota.push(Mapa.NewLatLng(lista[i][0], lista[i][1]));
                     }
                     
-                    $('#buttonMensagem').show();
+                    $('#buttonMensagem').css('display', 'inline-block');
                     setIntervaloMensagem(numeroSMP);                    
         
                     rotaAtual = rota;
@@ -89,12 +89,12 @@ function buscaRotaSMP(){
                 }
                 else
                 {
-                    $('.button_mensagem').hide();
+					$('#buttonMensagem').css('display', 'none');	
                 	navigator.notification.alert('SMP não encontrada');
                 }
             },
             error: function (e) {
-                $('.button_mensagem').hide();
+                $('#buttonMensagem').css('display', 'none');
                 navigator.notification.alert('Erro ao pesquisar SMP');
             }
         });        
