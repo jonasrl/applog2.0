@@ -15,33 +15,25 @@
 	<script src="scripts/MapaLabel.js" type="text/javascript"></script>    
 
     <script src="scripts/index.js" type="text/javascript"></script>
+    <script src="scripts/SMP.js" type="text/javascript"></script>
+    <script src="scripts/Modal.js" type="text/javascript"></script>
 </head>
-<body>
- 
-  <div data-role="layout" data-id="main">
-    <div data-role="header">
-      <div data-role="navbar">
-        <span data-role="view-title"></span>
-        <a data-role="button" href="#appDrawer" data-rel="drawer" data-align="left" data-icon="drawer-button"></a>
-      </div>
+<body>	
+    <div data-role="layout" data-id="main">
     </div>
-  </div>
-
-  <!-- application drawer and contents -->
-  <div data-role="drawer" id="appDrawer" style="width: 270px" data-title="Menu" data-swipe-to-open="false">
-    <div data-role="header">
-      <div data-role="navbar">
-        <span data-role="view-title"></span>
-      </div>
+    <div data-role="view" class="view" data-layout="main">
+        <div class="filtro">
+            <input placeholder="Número da SMP" type="search" id="numeroSMP" required />
+            <a class="button" onclick="buscaRotaSMP()" data-role="button">Exibir rota</a>
+        </div>
+        <div class="button_mensagem hide">
+            <a class="button" onclick="exibirModalMensagem()" data-role="button">Modal</a>
+        </div>
+    </div>    
+    <div id="modal" data-role="modalview" data-width="300" data-height="300" data-modal="true" data-open="openModal">
+		<textarea style="resize: none" class="mensagem" placeholder="Digite a mensagem..." rows="10" id="mensagem"></textarea>        
+    	<a class="button selected-button" onclick="enviarMensagem()" data-role="button">Enviar mensagem</a>
+        <a class="button" onclick="fecharModalMensagem()" data-role="button">Fechar</a>
     </div>
-    <ul data-role="listview">
-      <li>
-        <a href="views/smp.html">SMP</a>
-      </li>
-      <li>
-        <a href="views/motorista.html">Motorista</a>
-      </li>
-    </ul>
-  </div>       
 </body>
 </html>
