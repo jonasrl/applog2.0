@@ -24,3 +24,26 @@ body, html{
 .mensagem{
     width: 100%;
 }
+
+.button {
+    color: #002C74 !important;
+	background: #fff !important;	
+    padding: 0.3em 0.8em !important;
+    border: 1px solid;
+    border-radius: 3px !important;
+    border-color: #002C74 !important;
+    -webkit-box-shadow: none !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+
+input {
+    font-size: .9em !important;
+    padding: 0.5em .8em !important;
+    border: 1px solid currentcolor !important;
+    border-color: #002C74 !important;
+    border-radius: 3px !important;
+    outline-style: none !important;
+    color: #002C74 !important;
+    background: #fff !important;
+}
