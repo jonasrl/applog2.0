@@ -20,18 +20,20 @@
 </head>
 <body>	
     <div data-role="view" class="view" data-layout="main">
-        <div class="filtro">
-            <input placeholder="Número da SMP" type="search" id="numeroSMP" required />
-            <a class="button" onclick="buscaRotaSMP()" data-role="button" data-icon="globe">Rota</a>
+        <div id=filtroMapa>
+            <div class="filtro">
+                <input placeholder="Número da SMP" type="search" id="numeroSMP" required />
+                <a class="button" onclick="buscaRotaSMP()" data-role="button" data-icon="globe">Rota</a>
+                <a class="button hide" id="buttonMensagem" onclick="exibirModalMensagem()" data-role="button" data-icon="compose"></a>
+            </div>
         </div>
-        <div class="button_mensagem hide">
-            <a class="button" onclick="exibirModalMensagem()" data-role="button" data-icon="compose">Mensagem...</a>
+        
+        <div id="modal" data-role="modalview" data-width="300" data-height="300" data-modal="true" data-open="openModal">
+            <textarea style="resize: none" class="mensagem" placeholder="Digite a mensagem..." rows="10" id="mensagem"></textarea>        
+            <a class="button selected-button" onclick="enviarMensagem()" data-role="button" data-icon="reply">Enviar</a>
+            <a class="button" onclick="fecharModalMensagem()" data-role="button" data-icon="home">Fechar</a>
         </div>
+
     </div>    
-    <div id="modal" data-role="modalview" data-width="300" data-height="300" data-modal="true" data-open="openModal">
-		<textarea style="resize: none" class="mensagem" placeholder="Digite a mensagem..." rows="10" id="mensagem"></textarea>        
-    	<a class="button selected-button" onclick="enviarMensagem()" data-role="button" data-icon="reply">Enviar</a>
-        <a class="button" onclick="fecharModalMensagem()" data-role="button" data-icon="home">Fechar</a>
-    </div>
 </body>
 </html>

@@ -24,7 +24,7 @@ function buscaRotaSMP(){
                         rota.push(Mapa.NewLatLng(lista[i][0], lista[i][1]));
                     }
                     
-                    $('.button_mensagem').show();
+                    $('#buttonMensagem').show();
                     setIntervaloMensagem(numeroSMP);                    
         
                     mapa.NewPolylineByPaths(rota, true);

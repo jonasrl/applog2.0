@@ -10,7 +10,13 @@ function onDeviceReady() {
     
     mapa = new Mapa(null, null, null, false);
     mapa.DrawingManager.setMap(null);
-
+	mapa.Mapa.controls[google.maps.ControlPosition.TOP_LEFT].push($('#filtroMapa')[0]);
+    
+    navigator.geolocation.getCurrentPosition(function (position) {
+        var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);        
+        mapa.NewMarkerAtPoint(pos);
+    });        
+    
     setInterval(function(){
         navigator.geolocation.getCurrentPosition(function (position) {
             var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);        
@@ -20,7 +26,7 @@ function onDeviceReady() {
 }
 
 function exibirModalMensagem(){
-    $("#modal").data("kendoMobileModalView").open()
+    $("#modal").data("kendoMobileModalView").open()    
 }
 
 function fecharModalMensagem(){
