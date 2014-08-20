@@ -1,118 +1,104 @@
-var mapa;
-
-$(function(){
-    mapa = new Mapa(300, null, $('#divMapa'), false);
-    mapa.DrawingManager.setMap(null);
-    
-    setInterval(function(){
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);        
-            mapa.NewMarkerAtPoint(pos);
-        });        
-    }, 120000);           
-
-  document.addEventListener('orientationchange', doOnOrientationChange);    
-})
-
-function doOnOrientationChange()
-{
-    switch(window.orientation) 
-    {  
-      case -90:
-      case 90:
-        $('#divMapa').css('height', $(document).height() - $('#filtro').height() - $($('.km-view-title')[2]).height() - 10);
-        mapa.Resize();
-        break; 
-      default:
-        $('#divMapa').css('height', $(document).height() - $('#filtro').height() - $($('.km-view-title')[2]).height() - 10);
-        mapa.Resize();
-        break; 
-    }
-}
+var intervaloMensagem;
+var numeroSMPAtual;
 
 function buscaRotaSMP(){
     var numeroSMP = $('#numeroSMP').val();
-    var url = 'http://192.168.0.16/webapi/api/';
-    
-    mapa.ClearMap();
-    
-    $.ajax({
-        type: "POST",
-        url: url + "BuscaSMP",
-        data: {
-            NumeroSMP: parseInt(numeroSMP)
-        },
-        dataType: "json",
-        success: function (result) {
-            var list = result;
-            var rota = new Array();
-            var lista = list.LatLng;
-            for (var i = 0; i < lista.length; i++) {
-                rota.push(Mapa.NewLatLng(lista[i][0], lista[i][1]));
-            }
-
-            mapa.NewPolylineByPaths(rota, true);
-
-            $.ajax({
-                type: "GET",
-                url: url + 'BuscaHistoricoPosicao/' + list.IdSMP,
-                success: function (result) {
-                    mostrarIconesCaminhao(result);
-                },
-                error: function (e) {
-                    navigator.notification.alert('Erro ao pesquisar histórico de posições');
-                },
-            });
-
-            $.ajax({
-                type: "GET",
-                url: url + 'BuscaPontos/' + list.IdSMP,
-                success: function (result) {
-                    var label, smpPontoModelo;
+    if (numeroSMP != '')
+    {
+        mapa.ClearMap();
+        
+        $.ajax({
+            type: "POST",
+            url: url + "BuscaSMP",
+            data: {
+                NumeroSMP: parseInt(numeroSMP)
+            },
+            dataType: "json",
+            success: function (result) {
+                if (result)
+                {
                     var list = result;
-
-                    MapaLabel.ClearLabels();
-                    mapa.ClearCircles();
-                    mapa.ClearPolygons();
-
-                    for (var j = 0; j < list.length; j++) {
-                        smpPontoModelo = list[j];
-
-                        var marker = mapa.NewMarkerAtPoint(Mapa.NewLatLng(smpPontoModelo.Lats[0], smpPontoModelo.Lngs[0]));
-                        marker.setTitle(smpPontoModelo.Nome);
-                        marker.setOptions({ dataItem: smpPontoModelo });
-
-                        if (j == 0) {
-                            marker.setIcon("img/MarcadorPontoinicial_35.png");
-                        } else if (j == list.length - 1) {
-                            marker.setIcon("img/MarcadorPontofinal_35.png");
-                        } else {
-                            marker.setIcon("img/MarcadorPontodeentrega_35.png");
-                        }
-
-                        label = new MapaLabel({ map: mapa.Mapa }, smpPontoModelo.Nome, "", 0, 0, "#FFFFFF", "Solid 1px #27408B");
-                        label.bindEvents(marker);
-
-                        if (smpPontoModelo.Raio != null)
-                            mapa.NewCircleByRadius(smpPontoModelo.Raio, Mapa.NewLatLng(smpPontoModelo.Lats[0], smpPontoModelo.Lngs[0]));
-                        else {
-                            var pol = new Array();
-                            for (var i = 0; i < smpPontoModelo.Lats.length; i++)
-                                pol.push(Mapa.NewLatLng(smpPontoModelo.Lats[i], smpPontoModelo.Lngs[i]));
-                            mapa.NewPolygonByPaths(pol, false);
-                        }
-
-                        google.maps.event.addListener(marker, 'click', function () {
-                            buildInfoWindowSMPPonto(this, this.dataItem);
-                        });
+                    var rota = new Array();
+                    var lista = list.LatLng;
+                    for (var i = 0; i < lista.length; i++) {
+                        rota.push(Mapa.NewLatLng(lista[i][0], lista[i][1]));
                     }
+                    
+                    $('.button_mensagem').show();
+                    setIntervaloMensagem(numeroSMP);                    
+        
+                    mapa.NewPolylineByPaths(rota, true);
+        
+                    $.ajax({
+                        type: "GET",
+                        url: url + 'BuscaHistoricoPosicao/' + list.IdSMP,
+                        success: function (result) {
+                            mostrarIconesCaminhao(result);
+                        },
+                        error: function (e) {
+                            navigator.notification.alert('Erro ao pesquisar histórico de posições');
+                        },
+                    });
+        
+                    $.ajax({
+                        type: "GET",
+                        url: url + 'BuscaPontos/' + list.IdSMP,
+                        success: function (result) {
+                            var label, smpPontoModelo;
+                            var list = result;
+        
+                            MapaLabel.ClearLabels();
+                            mapa.ClearCircles();
+                            mapa.ClearPolygons();
+        
+                            for (var j = 0; j < list.length; j++) {
+                                smpPontoModelo = list[j];
+        
+                                var marker = mapa.NewMarkerAtPoint(Mapa.NewLatLng(smpPontoModelo.Lats[0], smpPontoModelo.Lngs[0]));
+                                marker.setTitle(smpPontoModelo.Nome);
+                                marker.setOptions({ dataItem: smpPontoModelo });
+        
+                                if (j == 0) {
+                                    marker.setIcon("img/MarcadorPontoinicial_35.png");
+                                } else if (j == list.length - 1) {
+                                    marker.setIcon("img/MarcadorPontofinal_35.png");
+                                } else {
+                                    marker.setIcon("img/MarcadorPontodeentrega_35.png");
+                                }
+        
+                                label = new MapaLabel({ map: mapa.Mapa }, smpPontoModelo.Nome, "", 0, 0, "#FFFFFF", "Solid 1px #27408B");
+                                label.bindEvents(marker);
+        
+                                if (smpPontoModelo.Raio != null)
+                                    mapa.NewCircleByRadius(smpPontoModelo.Raio, Mapa.NewLatLng(smpPontoModelo.Lats[0], smpPontoModelo.Lngs[0]));
+                                else {
+                                    var pol = new Array();
+                                    for (var i = 0; i < smpPontoModelo.Lats.length; i++)
+                                        pol.push(Mapa.NewLatLng(smpPontoModelo.Lats[i], smpPontoModelo.Lngs[i]));
+                                    mapa.NewPolygonByPaths(pol, false);
+                                }
+        
+                                google.maps.event.addListener(marker, 'click', function () {
+                                    buildInfoWindowSMPPonto(this, this.dataItem);
+                                });
+                            }
+                        }
+                    });
                 }
-            });
-        },
-        error: function (e) {
-            navigator.notification.alert('Erro ao pesquisar rota');
-        }
-    });
+                else
+                {
+                    $('.button_mensagem').hide();
+                	navigator.notification.alert('SMP não encontrada');
+                }
+            },
+            error: function (e) {
+                $('.button_mensagem').hide();
+                navigator.notification.alert('Erro ao pesquisar SMP');
+            }
+        });        
+    }
+    else
+        navigator.notification.alert('Informe o número da SMP');
 }
 
 function buildInfoWindowSMPPonto(marker, smpPontoModelo) {
@@ -143,5 +129,31 @@ function mostrarIconesCaminhao(listRastreadorPosicao) {
             dataItem: rastreadorPosicaoModelo,
             opcional: true
         });
+    }
+}
+
+function setIntervaloMensagem(numeroSMP){
+    if (numeroSMPAtual != numeroSMP)
+    {
+        clearInterval(intervaloMensagem);
+        numeroSMPAtual = numeroSMP;
+    }
+    
+    if (!intervaloMensagem)
+    {
+        intervaloMensagem = setInterval(function(){
+            $.ajax({
+                type: "GET",
+                url: url + "Mensagem/" + numeroSMPAtual,
+                success: function (result) {
+                    if (result != '')
+                    {
+                        navigator.notification.beep(1);
+                        navigator.notification.vibrate(2000);
+                        navigator.notification.alert(result);
+                    }
+                }
+            });
+        }, 30000);
     }
 }
