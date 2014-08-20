@@ -1,5 +1,6 @@
 var intervaloMensagem;
 var numeroSMPAtual;
+var rotaAtual;
 
 function buscaRotaSMP(){
     var numeroSMP = $('#numeroSMP').val();
@@ -27,6 +28,7 @@ function buscaRotaSMP(){
                     $('#buttonMensagem').show();
                     setIntervaloMensagem(numeroSMP);                    
         
+                    rotaAtual = rota;
                     mapa.NewPolylineByPaths(rota, true);
         
                     $.ajax({
