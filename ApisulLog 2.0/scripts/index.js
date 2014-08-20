@@ -4,6 +4,15 @@ var validator;
 var url = 'http://192.168.0.20/webapi/api/';
 
 document.addEventListener('deviceready', onDeviceReady, false);
+document.addEventListener('orientationchange', doOnOrientationChange);
+
+function doOnOrientationChange()
+{
+    if (rotaAtual)
+        setTimeout(function(){
+           mapa.SetBounds(rotaAtual); 
+        }, 100);
+}
 
 function onDeviceReady() {
     app = new kendo.mobile.Application(document.body);
