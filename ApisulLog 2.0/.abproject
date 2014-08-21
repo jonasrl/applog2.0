@@ -4,7 +4,7 @@
   "projectVersion": 1,
   "AppIdentifier": "com.telerik.ApisulLog20",
   "DisplayName": "ApisulLog 2.0",
-  "Author": "",
+  "Author": "Jonas",
   "Description": "ApisulLog 2.0",
   "BundleVersion": "1.0",
   "AndroidVersionCode": "1",
@@ -66,7 +66,7 @@
     "Portrait",
     "Landscape"
   ],
-  "AndroidHardwareAcceleration": "false",
+  "AndroidHardwareAcceleration": "False",
   "iOSStatusBarStyle": "Default",
   "WP8SupportedResolutions": [
     "ID_RESOLUTION_WVGA",
